@@ -16,11 +16,15 @@ header{
     background-color: #010077;
     height: 12vh;
 }
+nav{
+
+}
 .hautdepage{
     display: flex;
-    gap: 10%;
     padding-top: 1%;
     list-style-type: none;
+    align-items: center;
+    justify-content: space-between;
 }
 .hautdepage2{
     font-family: "Atma", serif;
@@ -35,7 +39,9 @@ header{
     color: white;
     font-size: 20px;
     text-decoration: none;
+
 }
 .profil{
     width: 8%;
+
 }
