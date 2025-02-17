@@ -4,20 +4,18 @@
 }
 body{
     width: 100%;
-    height: 100vh;
+    height: 150vh;
     background-image: url('image/disco.png');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
+    background: brightness(0.7); 
 }
 
 /*HAUT DE PAGE*/
 header{
     background-color: #010077;
     height: 12vh;
-}
-nav{
-
 }
 .hautdepage{
     display: flex;
@@ -27,21 +25,89 @@ nav{
     justify-content: space-between;
 }
 .hautdepage2{
-    font-family: "Atma", serif;
+      font-family: "Sour Gummy", serif;
     font-weight: 300;
     color: white;
     font-size: 30px;
     text-decoration: none;
 }
 .hautdepage3{
-    font-family: "Atma", serif;
+    font-family: "Sour Gummy", serif;
     font-weight: 300;
     color: white;
     font-size: 20px;
     text-decoration: none;
-
 }
 .profil{
     width: 8%;
+}
 
+/*PAGE*/
+.page{
+    background-color: #a0a2cdc9;
+    width: 60%;
+    margin: 70px auto 0;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2% 5% 2% 5%;
+}
+.bienvenue{
+    font-family: "Sour Gummy", serif;
+    color: #010077;
+    font-size: 28px;
+}
+.biographie{
+    font-family: "Sour Gummy", serif;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 3%;
+}
+.deuxcommentaires2{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5%;
+    gap: 5%;
+}
+.premiercommentaire{
+    background-color: #2928ac;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Sour Gummy", serif;
+    width: 25%;
+    color: white;
+    padding: 2%;
+}
+.deuxièmecommentaire{
+    background-color: #2928ac;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Sour Gummy", serif;
+    width: 25%;
+    color: white;
+    padding: 2%;
+}
+.troisièmecommentaire{
+    background-color: #2928ac;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Sour Gummy", serif;
+    width: 25%;
+    color: white;
+    padding: 2%;
+}
+.envoyermessage{
+    margin-top: 8%;
+    border: solid 5px #2928ac;
+    border-radius: 10px;
+    text-align: center;
+    padding: 1%;
+}
+.envoyermessage2{
+    color: white;
+    font-size: 18px;
+    font-family: "Sour Gummy", serif;
+    text-decoration: none;
 }
