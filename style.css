@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100%;
+    height: 100vh;
+    background-image: url('image/disco.png');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
+
+/*HAUT DE PAGE*/
+header{
+    background-color: #010077;
+    height: 12vh;
+}
+.hautdepage{
+    display: flex;
+    gap: 10%;
+    padding-top: 1%;
+    list-style-type: none;
+}
+.hautdepage2{
+    font-family: "Atma", serif;
+    font-weight: 300;
+    color: white;
+    font-size: 30px;
+    text-decoration: none;
+}
+.hautdepage3{
+    font-family: "Atma", serif;
+    font-weight: 300;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+.profil{
+    width: 8%;
+}
