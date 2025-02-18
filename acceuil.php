@@ -165,6 +165,7 @@ if ($q === "") {
         <!-- Bouton pour flip retour face avant -->
         <label for="flip-toggle" class="toggle-btn">Voir les commentaires</label>
       </div>
+      
       <footer>
         © Copyright
         <div class="Copyright">
