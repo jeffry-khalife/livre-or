@@ -101,6 +101,10 @@ if ($q === "") {
   <title>Livre d'Or</title>
 
 </head>
+<nav>
+        <a href="index.php">Bernadette's Birthday</a>
+        <a href="login.php"><img src="image/profile.png" alt="icone profil"></a>
+    </nav>
 <body>
 
   <h1>Livre d'Or</h1>
@@ -161,7 +165,18 @@ if ($q === "") {
         <!-- Bouton pour flip retour face avant -->
         <label for="flip-toggle" class="toggle-btn">Voir les commentaires</label>
       </div>
-    </div>
-  </div>
+      <footer>
+        © Copyright
+        <div class="Copyright">
+            <p>Magali Vacher
+            <br><a href="https://github.com/Vacher-Magali"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Anna Maras
+            <br><a href="#"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Emilie Ponce
+            <br><a href="#"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Jeffry KHALIFE
+            <br><a href="https://github.com/jeffry-khalife"><img src = "image/githublogo.png" alt="logo github"></a></p>
+        </div>
+    </footer>
 </body>
 </html>
