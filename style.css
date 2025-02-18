@@ -9,7 +9,6 @@ body{
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
-    background: brightness(0.7); 
 }
 
 /*HAUT DE PAGE*/
@@ -17,15 +16,11 @@ header{
     background-color: #010077;
     height: 12vh;
 }
-nav{
-
-}
 .hautdepage{
     display: flex;
     padding-top: 1%;
     list-style-type: none;
     align-items: center;
-   
 }
 .hautdepage2{
       font-family: "Sour Gummy", serif;
@@ -113,4 +108,196 @@ nav{
     font-size: 18px;
     font-family: "Sour Gummy", serif;
     text-decoration: none;
+}
+
+/*MEDIA QUERIES*/
+@media only screen and (min-width:375px) and (max-width:575px){
+    body{
+        height: 190vh !important;
+    }
+    header{
+        display: flex !important;
+        gap: 10% !important;
+        align-items: center !important;
+    }
+    .hautdepage{
+        display: flex;
+        gap: 10%;
+    }
+    .hautdepage2{
+        font-size: 32px !important;
+    }
+    .hautdepage3{
+        font-size: 32px !important;
+    }
+    .profil{
+        width: 45% !important;
+    }
+    .page{
+        width: 70% !important;
+    }
+    .bienvenue{
+        font-size: 33px !important;
+        text-align: center !important;
+        margin-top: 2% !important;
+    }
+    .biographie{
+        font-size: 26px !important;
+        margin-top: 4% !important;
+        margin-bottom: 8% !important;
+    }
+    .deuxcommentaires2{
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .premiercommentaire{
+        width: 85% !important;
+        font-size: 26px !important;
+        margin-bottom: 15% !important;
+    }
+    .deuxièmecommentaire{
+        width: 85% !important;
+        font-size: 26px !important;
+        margin-bottom: 15% !important;
+    }
+    .troisièmecommentaire{
+        width: 85% !important;
+        font-size: 26px !important;
+        margin-bottom: 5% !important;
+    }
+    .envoyermessage{
+        width: 85% !important;
+        margin-bottom: 10% !important;
+    }
+    .envoyermessage2{
+        font-size: 26px !important;
+    }
+}
+@media only screen and (max-width: 576px){
+    body{
+        height: 177vh !important;
+    }
+    header{
+        display: flex !important;
+        gap: 10% !important;
+        align-items: center !important;
+    }
+    .hautdepage{
+        display: flex;
+        gap: 10%;
+    }
+    .hautdepage2{
+        font-size: 32px !important;
+    }
+    .hautdepage3{
+        font-size: 32px !important;
+    }
+    .profil{
+        width: 45% !important;
+    }
+    .page{
+        width: 70% !important;
+    }
+    .bienvenue{
+        font-size: 33px !important;
+        text-align: center !important;
+        margin-top: 2% !important;
+    }
+    .biographie{
+        font-size: 26px !important;
+        margin-top: 4% !important;
+        margin-bottom: 8% !important;
+    }
+    .deuxcommentaires2{
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .premiercommentaire{
+        width: 85% !important;
+        font-size: 26px !important;
+        margin-bottom: 15% !important;
+    }
+    .deuxièmecommentaire{
+        width: 85% !important;
+        font-size: 26px !important;
+        margin-bottom: 15% !important;
+    }
+    .troisièmecommentaire{
+        width: 85% !important;
+        font-size: 26px !important;
+        margin-bottom: 5% !important;
+    }
+    .envoyermessage{
+        width: 85% !important;
+        margin-bottom: 10% !important;
+    }
+    .envoyermessage2{
+        font-size: 26px !important;
+    }
+}
+
+@media only screen and (min-width: 577px) and (max-width: 768px){
+    body{
+        height: 190vh !important;
+    }
+    header{
+        display: flex !important;
+        gap: 10% !important;
+        align-items: center !important;
+    }
+    .hautdepage{
+        display: flex;
+        padding-top: 1%;
+        list-style-type: none;
+        align-items: center;
+        gap: 20% !important;
+    }
+    .hautdepage2{
+        font-size: 35px !important;
+    }
+    .hautdepage3{
+        font-size: 35px !important;
+    }
+    .profil{
+        width: 55% !important;
+    }
+    .page{
+        width: 70% !important;
+    }
+    .bienvenue{
+        font-size: 40px !important;
+        text-align: center !important;
+        margin-top: 2% !important;
+    }
+    .biographie{
+        font-size: 30px !important;
+        margin-top: 4% !important;
+        margin-bottom: 5% !important;
+    }
+    .deuxcommentaires2{
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .premiercommentaire{
+        width: 85% !important;
+        font-size: 30px !important;
+        margin-bottom: 12% !important;
+    }
+    .deuxièmecommentaire{
+        width: 85% !important;
+        font-size: 30px !important;
+        margin-bottom: 12% !important;
+    }
+    .troisièmecommentaire{
+        width: 85% !important;
+        font-size: 30px !important;
+        margin-bottom: 4% !important;
+    }
+    .envoyermessage{
+        width: 85% !important;
+        margin-bottom: 10% !important;
+    }
+    .envoyermessage2{
+        font-size: 30px !important;
+    }
 }

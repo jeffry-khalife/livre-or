@@ -29,13 +29,13 @@
         </p>
         
         <div class="biographie">
-            En ce 21 février 2025, nous célébrons l'anniversaire de Bernadette, notre étoile du disco ! Avec son amour pour la musique des années 80 et ses pas de danse enflammés, Bernadatte illumine toutes les soirées. Son énergie contagieuse et sa bonne humeur font d'elle une amie précieuse pour chacun de nous. Que cette journée soit aussi brillante et joyeuse qu'elle !<br><br>Bon anniversaire, Berndatte !
+            En ce 21 février 2025, nous célébrons l'anniversaire de Bernadette, notre étoile du disco ! Avec son amour pour la musique des années 80 et ses pas de danse enflammés, Bernadatte illumine toutes les soirées. Son énergie contagieuse et sa bonne humeur font d'elle une amie précieuse pour chacun de nous. Que cette journée soit aussi brillante et joyeuse qu'elle !<br><br>Bon anniversaire, Bernadette !
         </div>
 
         <div class="deuxcommentaires">
             <div class="deuxcommentaires2">
                 <p class="premiercommentaire">
-                    "Bernadette, tu es la reine des années 80! Joyeux anniversaire et que la fête commence avec du bon vieux Michael Jackson et Madonna !"
+                    "Bernadette, tu es la reine des années 80 ! Joyeux anniversaire et que la fête commence avec du bon vieux Michael Jackson et Madonna !"
                 </p>
                 <p class="deuxièmecommentaire">
                     "Qu'importe le temps qui passe, ton cœur est toujours aussi jeune et vibrant que dans les années 80. Joyeux anniversaire, Bernadette !"
@@ -52,7 +52,5 @@
             </a>
         </div>
     </section>
-
-    
 </body>
 </html>
