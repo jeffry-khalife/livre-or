@@ -15,8 +15,8 @@
     <header>
         <nav>
             <ul class="hautdepage">
-                <li><a class="hautdepage2" href="">BERNADETTE'S BIRTHDAY</a></li>
                 <li><a class="hautdepage3" href="">Connexion</a></li>
+                <li><a class="hautdepage2" href="">BERNADETTE'S BIRTHDAY</a></li>
                 <li><a class="profil" href=""><img class="profil" src="image/profil.png" alt="logo profil"></a></li>
             </ul>
         </nav>
@@ -35,7 +35,7 @@
         <div class="deuxcommentaires">
             <div class="deuxcommentaires2">
                 <p class="premiercommentaire">
-                    "Bernadette, tu es la reine des années 80! Joyeux anniversaire et que la fête commence avec du bon vieux Michael Jackson et Madonna!"
+                    "Bernadette, tu es la reine des années 80! Joyeux anniversaire et que la fête commence avec du bon vieux Michael Jackson et Madonna !"
                 </p>
                 <p class="deuxièmecommentaire">
                     "Qu'importe le temps qui passe, ton cœur est toujours aussi jeune et vibrant que dans les années 80. Joyeux anniversaire, Bernadette !"
