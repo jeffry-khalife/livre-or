@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
         $guestBook->addMessage($nom, $prenom, $msg);
         $feedback = "Commentaire ajouté avec succès !";
         // Redirection pour éviter la double soumission
-        header("Location: livreor.php");
+        header("Location: acceuil.php");
         exit;
     } else {
         $feedback = "Veuillez remplir tous les champs (nom, prénom, message).";
