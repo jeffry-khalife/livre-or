@@ -189,13 +189,10 @@
   
   /* NAVIGATION */
   nav {
-    background-color: var(--primary-color);
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    background-color: #010077;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
   }
   
   nav img {
