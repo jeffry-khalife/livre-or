@@ -130,7 +130,7 @@ nav a {
 
 .dropdown-content2 a {
   color: white;
-  padding: 12px 12px;
+  padding: 12px 1px;
   text-decoration: none;
   display: block;
 }
@@ -239,7 +239,7 @@ nav {
 
 nav a {
     font-size: 1.2rem;
-    padding: 12px 25px;
+    padding: 12px 35px;
 }
 
 .dropdown-content, .dropdown-content1, .dropdown-content2 {
