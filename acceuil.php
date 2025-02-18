@@ -177,7 +177,7 @@ if ($q === "") {
   </main>
 
   <footer>
-    <p>© Copyright</p>
+    <p></p>
     <div class="Copyright">
       <p>
         Magali Vacher<br>
