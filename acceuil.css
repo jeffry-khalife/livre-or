@@ -1,6 +1,4 @@
-/* ===============================
-   VARIABLES (ROOT)
-   =============================== */
+/* VARIABLES (ROOT)*/
    :root {
     --primary-color: #010077;
     --secondary-color: #007BFF;
@@ -11,9 +9,7 @@
     --nav-link-font: 'caveat', cursive;
   }
   
-  /* ===============================
-     RESET & STRUCTURE DE BASE
-     =============================== */
+  /* RESET & STRUCTURE DE BASE*/
   * {
     margin: 0;
     padding: 0;
@@ -36,9 +32,7 @@
     flex: 1;
   }
   
-  /* ===============================
-     TYPOGRAPHIE
-     =============================== */
+  /* TYPOGRAPHIE */
   h1 {
     margin: 20px 0;
     font-size: 28px;
@@ -51,14 +45,12 @@
     margin: 10px 0;
   }
   
-  /* ===============================
-     FLIP CONTAINER
-     =============================== */
+  /* FLIP CONTAINER */
   .flip-container {
     perspective: 1000px;
     width: 350px;
     margin: 40px auto;
-    position: relative;  /* Contient les éléments absolus */
+    position: relative;
     height: 450px;
   }
   
@@ -94,9 +86,7 @@
     transform: rotateY(180deg);
   }
   
-  /* ===============================
-     BOUTONS & FORMULAIRES
-     =============================== */
+  /* BOUTONS & FORMULAIRES*/
   .toggle-btn,
   .envoyer-btn,
   .dropbtn,
@@ -173,9 +163,7 @@
     resize: vertical;
   }
   
-  /* ===============================
-     MESSAGE ITEMS
-     =============================== */
+  /* MESSAGE ITEMS */
   .message-item {
     margin-bottom: 15px;
     text-align: left;
@@ -199,9 +187,7 @@
     color: #666;
   }
   
-  /* ===============================
-     NAVIGATION
-     =============================== */
+  /* NAVIGATION */
   nav {
     background-color: var(--primary-color);
     display: flex;
@@ -237,9 +223,7 @@
     background-color: #777;
   }
   
-  /* ===============================
-     DROPDOWN MENUS
-     =============================== */
+  /*  DROPDOWN MENUS */
   .dropdown,
   .dropdown1,
   .dropdown2 {
@@ -285,9 +269,7 @@
     background-color: #777;
   }
   
-  /* ===============================
-     FOOTER
-     =============================== */
+  /* FOOTER */
   footer {
     background-color: var(--primary-color);
     color: var(--white);
@@ -308,9 +290,7 @@
     height: 8%;
   }
   
-  /* ===============================
-     MEDIA QUERIES
-     =============================== */
+  /* MEDIA QUERIES */
   @media (max-width: 600px) {
     nav {
       flex-direction: column;
