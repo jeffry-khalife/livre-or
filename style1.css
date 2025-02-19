@@ -19,6 +19,7 @@ body {
   .co{
     font-size: 45px;
     color: #010077;
+    font-family: 'Atma';
   }
 
   h2 {
@@ -35,6 +36,7 @@ body {
     display: block;
     font-size: 20px;
     margin-bottom: 5px;
+    font-family: 'Atma';
   }
 
   input[type="text"], input[type="email"], input[type="password"] {
@@ -55,6 +57,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-family: 'Atma';
  
   }
 
@@ -66,16 +69,19 @@ body {
     font-size: 20px;
     padding-top: 4%;
     color: #010077;
+    font-family: 'Atma';
   }
 
   .message {
     text-align: center;
     margin-top: 20px;
     color: #28a745;
+    font-family: 'Atma';
   }
 
   .error {
     color: #e74c3c;
+    font-family: 'Atma';
   }
 
 /* Formulaire */
@@ -165,6 +171,7 @@ form {
 .inscrip{
   font-size: 45px;
   color: #010077;
+  font-family: 'Atma';
 }
 
 @media (max-width: 600px) {

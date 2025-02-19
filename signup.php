@@ -33,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Caveat' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style1.css">
     <link rel="stylesheet" href="style2.css">
     <title>Profil</title>
@@ -57,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <button type="submit">S'inscrire</button> 
             </form>
-            <p class="uncompte" >Déja un compte ? <a class="uncompteconnexion" href="login.php">Connexion</a></p>
+            <p class="uncompte">Déja un compte ? <a class="uncompteconnexion" href="login.php">Connexion</a></p>
         </div>
     </div>
 
