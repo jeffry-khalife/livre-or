@@ -25,21 +25,53 @@ class GuestBook {
         $this->pdo = $database->getPdo();
     }
 
-    // Récupérer tous les commentaires 
-    public function getAllMessages(){
-        $sql = "SELECT * FROM messages ORDER BY id DESC";
-        $stmt = $this->pdo->query($sql);
+    // Récupérer tous les commentaires (avec pagination)
+    public function getMessages($limit, $offset){
+        $sql = "SELECT * FROM messages ORDER BY id DESC LIMIT :limit OFFSET :offset";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Rechercher par nom ou prénom
-    public function searchMessages($q){
-        $sql = "SELECT * FROM messages
-                WHERE nom LIKE :q OR prenom LIKE :q
-                ORDER BY id DESC";
+    // Compter le nombre total de commentaires
+    public function getMessagesCount(){
+        $sql = "SELECT COUNT(*) as count FROM messages";
+        $stmt = $this->pdo->query($sql);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count'];
+    }
+
+    // Rechercher par nom ou prénom (avec pagination si $limit et $offset sont précisés)
+    public function searchMessages($q, $limit = null, $offset = null){
+        if ($limit !== null && $offset !== null) {
+            $sql = "SELECT * FROM messages
+                    WHERE nom LIKE :q OR prenom LIKE :q
+                    ORDER BY id DESC LIMIT :limit OFFSET :offset";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+            $stmt->execute();
+        } else {
+            $sql = "SELECT * FROM messages
+                    WHERE nom LIKE :q OR prenom LIKE :q
+                    ORDER BY id DESC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':q' => '%'.$q.'%']);
+        }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Compter le nombre de commentaires pour une recherche
+    public function searchMessagesCount($q){
+        $sql = "SELECT COUNT(*) as count FROM messages
+                WHERE nom LIKE :q OR prenom LIKE :q";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':q' => '%'.$q.'%']);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count'];
     }
 
     // Ajouter un commentaire (nom, prénom, message)
@@ -67,6 +99,12 @@ $feedback = "";
 // Récupération du paramètre de recherche
 $q = isset($_GET['q']) ? trim($_GET['q']) : "";
 
+// Définition de la pagination
+$limit = 5; // Nombre de messages par page
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) { $page = 1; }
+$offset = ($page - 1) * $limit;
+
 // 3.1. Ajout d'un commentaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
     $nom    = strip_tags($_POST["nom"]);
@@ -87,20 +125,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
 // 3.2. Lecture des messages (filtrés ou non)
 if ($q === "") {
     // Pas de recherche
-    $messages = $guestBook->getAllMessages();
+    $totalMessages = $guestBook->getMessagesCount();
+    $messages = $guestBook->getMessages($limit, $offset);
 } else {
     // Recherche sur nom/prénom
-    $messages = $guestBook->searchMessages($q);
+    $totalMessages = $guestBook->searchMessagesCount($q);
+    $messages = $guestBook->searchMessages($q, $limit, $offset);
 }
+
+$totalPages = ceil($totalMessages / $limit);
 ?>
-<!DOCTYPE html>
-<html lang="fr">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="acceuil.css">
+  <link rel="stylesheet" href="accueil.css">
   <title>Livre d'Or</title>
 </head>
 <body>
@@ -147,6 +187,19 @@ if ($q === "") {
                 <em>Posté le <?php echo date('d/m/Y H:i', strtotime($msg['date_post'])); ?></em>
               </div>
             <?php endforeach; ?>
+          <?php endif; ?>
+
+          <!-- Liens de pagination -->
+          <?php if ($totalPages > 1): ?>
+            <div class="pagination">
+              <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <?php if ($i == $page): ?>
+                  <span class="current-page"><?= $i ?></span>
+                <?php else: ?>
+                  <a href="?page=<?= $i ?><?php if (!empty($q)) echo '&q=' . urlencode($q); ?>"><?= $i ?></a>
+                <?php endif; ?>
+              <?php endfor; ?>
+            </div>
           <?php endif; ?>
 
           <!-- Bouton pour passer à l'ajout -->
