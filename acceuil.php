@@ -20,58 +20,50 @@ class GuestDB {
 /* Classe livre d'or */
 class GuestBook {
     private $pdo;
+    private $messagesPerPage = 10; // Nombre de messages par page
 
     public function __construct(GuestDB $database){
         $this->pdo = $database->getPdo();
     }
 
-    // Récupérer tous les commentaires (avec pagination)
-    public function getMessages($limit, $offset){
+    // Récupérer les messages paginés
+    public function getPagedMessages($page = 1){
+        $offset = ($page - 1) * $this->messagesPerPage;
         $sql = "SELECT * FROM messages ORDER BY id DESC LIMIT :limit OFFSET :offset";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $this->messagesPerPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Compter le nombre total de commentaires
-    public function getMessagesCount(){
-        $sql = "SELECT COUNT(*) as count FROM messages";
-        $stmt = $this->pdo->query($sql);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'];
+    // Compter le nombre total de messages
+    public function getTotalMessages(){
+        $sql = "SELECT COUNT(*) FROM messages";
+        return $this->pdo->query($sql)->fetchColumn();
     }
 
-    // Rechercher par nom ou prénom (avec pagination si $limit et $offset sont précisés)
-    public function searchMessages($q, $limit = null, $offset = null){
-        if ($limit !== null && $offset !== null) {
-            $sql = "SELECT * FROM messages
-                    WHERE nom LIKE :q OR prenom LIKE :q
-                    ORDER BY id DESC LIMIT :limit OFFSET :offset";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
-            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-            $stmt->execute();
-        } else {
-            $sql = "SELECT * FROM messages
-                    WHERE nom LIKE :q OR prenom LIKE :q
-                    ORDER BY id DESC";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([':q' => '%'.$q.'%']);
-        }
+    // Rechercher par nom ou prénom (avec pagination)
+    public function searchMessages($q, $page = 1){
+        $offset = ($page - 1) * $this->messagesPerPage;
+        $sql = "SELECT * FROM messages
+                WHERE nom LIKE :q OR prenom LIKE :q
+                ORDER BY id DESC LIMIT :limit OFFSET :offset";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $this->messagesPerPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Compter le nombre de commentaires pour une recherche
-    public function searchMessagesCount($q){
-        $sql = "SELECT COUNT(*) as count FROM messages
-                WHERE nom LIKE :q OR prenom LIKE :q";
+    // Compter le nombre total de messages pour une recherche
+    public function getTotalSearchMessages($q){
+        $sql = "SELECT COUNT(*) FROM messages WHERE nom LIKE :q OR prenom LIKE :q";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':q' => '%'.$q.'%']);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'];
+        $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn();
     }
 
     // Ajouter un commentaire (nom, prénom, message)
@@ -99,13 +91,10 @@ $feedback = "";
 // Récupération du paramètre de recherche
 $q = isset($_GET['q']) ? trim($_GET['q']) : "";
 
-// Définition de la pagination
-$limit = 5; // Nombre de messages par page
-$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) { $page = 1; }
-$offset = ($page - 1) * $limit;
+// Récupération du numéro de page
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
-// 3.1. Ajout d'un commentaire
+//  Ajout d'un commentaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
     $nom    = strip_tags($_POST["nom"]);
     $prenom = strip_tags($_POST["prenom"]);
@@ -122,18 +111,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
     }
 }
 
-// 3.2. Lecture des messages (filtrés ou non)
+//  Lecture des messages (filtrés ou non)
 if ($q === "") {
     // Pas de recherche
-    $totalMessages = $guestBook->getMessagesCount();
-    $messages = $guestBook->getMessages($limit, $offset);
+    $messages = $guestBook->getPagedMessages($page);
+    $totalMessages = $guestBook->getTotalMessages();
 } else {
     // Recherche sur nom/prénom
-    $totalMessages = $guestBook->searchMessagesCount($q);
-    $messages = $guestBook->searchMessages($q, $limit, $offset);
+    $messages = $guestBook->searchMessages($q, $page);
+    $totalMessages = $guestBook->getTotalSearchMessages($q);
 }
 
-$totalPages = ceil($totalMessages / $limit);
+// Calcul du nombre total de pages
+$totalPages = ceil($totalMessages / 5); // 10 est le nombre de messages par page
 ?>
 <!DOCTYPE html>
 <html lang="fr">
