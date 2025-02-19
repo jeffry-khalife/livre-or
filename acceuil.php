@@ -187,13 +187,13 @@ if ($q === "") {
       </p>
       <p>
         Anna Marras<br>
-        <a href="#">
+        <a href="https://github.com/anna-marras">
           <img src="image/githublogo.png" alt="logo github">
         </a>
       </p>
       <p>
-        Émilie Ponce<br>
-        <a href="#">
+        Emilie Ponce<br>
+        <a href="https://github.com/emilie-ponce">
           <img src="image/githublogo.png" alt="logo github">
         </a>
       </p>
