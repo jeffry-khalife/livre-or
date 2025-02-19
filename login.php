@@ -1,37 +1,32 @@
 <?php
 session_start();
-include ('config.php');
-include ('user.php');
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    include('config.php');
+    include('user.php');
 
-$message = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['login'];
     $password = $_POST['password'];
-    
-    if (empty($login) || empty($password)) {
-        $message = 'Tous les champs sont obligatoires.';
-    } else {
-        try {
-            $stmt = $db->prepare("SELECT * FROM user WHERE login = ?");
-            $stmt->execute([$login]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['login'] = $user['login'];
+    $user = new User($db);
+    $stmt = $db->prepare("SELECT * FROM user WHERE login = ?");
+    $stmt->execute([$login]);
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                header('Location: livre-or.php'); 
-                exit;
-            } else {
-                $message = 'Nom d\'utilisateur ou mot de passe incorrect.';
-            }
-        } catch (Exception $e) {
-            $message = 'Erreur de connexion : ' . $e->getMessage();
+    if ($data && password_verify($password, $data['password'])) {
+
+        $_SESSION['user_id'] = $data['id']; 
+        $_SESSION['role'] = $data['role'];  
+
+        if ($data['role'] == 'admin') {
+            header('Location: administrateur.php'); 
+        } else {
+            header('Location: livre-or.php');  
         }
+        exit();
+    } else {
+        $error = 'Identifiants incorrects.';
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -77,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <br><a href="https://github.com/Anna-Marras"><img src = "image/githublogo.png" alt="logo github"></a></p>
             <p>Emilie Ponce
             <br><a href="https://github.com/emilie-ponce"><img src = "image/githublogo.png" alt="logo github"></a></p>
-            <p>Jeffry KHALIFE
+            <p>Jeffry Kalife
             <br><a href="https://github.com/jeffry-khalife"><img src = "image/githublogo.png" alt="logo github"></a></p>
         </div>
     </footer>
