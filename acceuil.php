@@ -2,9 +2,9 @@
 class GuestDB {
     private $pdo;
 
-    public function __construct($host, $livre, $user, $pass){
+    public function __construct($host, $livreor, $user, $pass){
         try {
-            $this->pdo = new PDO("mysql:host=$host;dbname=$livre;charset=utf8", $user, $pass);
+            $this->pdo = new PDO("mysql:host=$host;dbname=$livreor;charset=utf8", $user, $pass);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         catch (PDOException $e) {
@@ -90,7 +90,7 @@ class GuestBook {
 /* INSTANCIATION + TRAITEMENT*/
 
 // Adaptez vos identifiants MySQL
-$database = new GuestDB("localhost", "livre", "root", "");
+$database = new GuestDB("localhost", "livreor", "root", "");
 $guestBook = new GuestBook($database);
 
 // Pour afficher un message de succès ou d'erreur
