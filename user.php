@@ -4,6 +4,7 @@ class User {
     private $id;
     private $login;
     private $password;
+    private $role; 
     private $pdo;
 
     public function __construct($pdo) {
@@ -22,6 +23,10 @@ class User {
         $this->password = $password;
     }
 
+    public function setRole($role) {
+        $this->role = $role;
+    }
+
     public function getId() {
         return $this->id;
     }
@@ -33,7 +38,11 @@ class User {
     public function getPassword() {
         return $this->password;
     }
-    
+
+    public function getRole() {
+        return $this->role;
+    }
+
     public function verifyPassword($currentPassword) {
         $stmt = $this->pdo->prepare("SELECT password FROM user WHERE id = ?");
         $stmt->execute([$this->id]);
@@ -44,14 +53,15 @@ class User {
         }
         return false;
     }
+
     public function save() {
         if ($this->id) {
-            $stmt = $this->pdo->prepare("UPDATE user SET login = ?, password = ? WHERE id = ?");
-            $stmt->execute([$this->login, $this->password, $this->id]);
+            $stmt = $this->pdo->prepare("UPDATE user SET login = ?, password = ?, role = ? WHERE id = ?");
+            $stmt->execute([$this->login, $this->password, $this->role, $this->id]);
         } else {
-            $stmt = $this->pdo->prepare("INSERT INTO user (login, password) VALUES (?, ?)");
-            $stmt->execute([$this->login, $this->password]);
-            $this->id = $this->pdo->lastInsertId();  
+            $stmt = $this->pdo->prepare("INSERT INTO user (login, password, role) VALUES (?, ?, ?)");
+            $stmt->execute([$this->login, $this->password, $this->role]);
+            $this->id = $this->pdo->lastInsertId();
         }
     }
 
@@ -63,10 +73,17 @@ class User {
             $this->setId($data['id']);
             $this->setLogin($data['login']);
             $this->setPassword($data['password']);
+            $this->setRole($data['role']); 
         }
     }
 
-    
+    public function isAdmin() {
+        return $this->role === 'admin';
+    }
+
+    public function isUser() {
+        return $this->role === 'user';
+    }
 }
 
 ?>
