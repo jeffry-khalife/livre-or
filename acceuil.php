@@ -130,7 +130,7 @@ $totalPages = ceil($totalMessages / 5); // 10 est le nombre de messages par page
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="accueil.css">
+  <link rel="stylesheet" href="acceuil.css">
   <title>Livre d'Or</title>
 </head>
 <body>
