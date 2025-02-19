@@ -186,7 +186,7 @@ if ($q === "") {
         </a>
       </p>
       <p>
-        Anna Maras<br>
+        Anna Marras<br>
         <a href="#">
           <img src="image/githublogo.png" alt="logo github">
         </a>

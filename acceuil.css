@@ -1,12 +1,13 @@
 /* VARIABLES (ROOT)*/
 :root {
-  --primary-color: #e6c063;
-  --secondary-color: #e6c063;
+  --primary-color: #010077;
+  --secondary-color: #010077;
   --white: #fff;
   --grey: #ccc;
   --light-bg: #f9f9f9;
   --feedback-color: #c93cae;
   --nav-link-font: 'atma', serif;
+  --main-font: 'atma', serif;
 }
 
 /* RESET & STRUCTURE DE BASE*/
@@ -24,7 +25,7 @@ html, body {
 
 body {
   font-family: 'Atma', serif;
-  background: url(image/ballon.jpg);
+  background: url(image/disco.png);
   text-align: center;
 }
 
@@ -35,7 +36,7 @@ main {
 /* TYPOGRAPHIE */
 h1 {
   font-family: 'Atma', serif;
-  color: #e08c1d;
+  color: #010077;
   margin: 20px 0;
   font-size: 28px;
   text-transform: uppercase;
@@ -191,7 +192,7 @@ form {
 
 /* NAVIGATION */
 nav {
-  background-color: #e6c063;
+background-color: #010077;
 display: flex;
 justify-content: center;
 padding: 10px;
@@ -211,11 +212,10 @@ nav a {
   font-family: var(--nav-link-font);
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: background-color 0.3s;
 }
 
 nav a.active {
-  background-color: #a0a2cdf5;
+  background-color: #010077;
 }
 
 nav a:hover {
