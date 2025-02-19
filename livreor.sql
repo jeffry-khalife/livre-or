@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 17 fév. 2025 à 13:58
+-- Généré le : mer. 19 fév. 2025 à 09:30
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -34,7 +34,15 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `id_user` int NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `comment`
+--
+
+INSERT INTO `comment` (`id`, `comment`, `id_user`, `date`) VALUES
+(1, 'sdgdsgdsgs', 1, '2025-02-18'),
+(2, 'aaaaaaaaaaaa', 1, '2025-02-18');
 
 -- --------------------------------------------------------
 
@@ -47,8 +55,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `login` varchar(191) NOT NULL,
   `password` varchar(191) NOT NULL,
+  `role` enum('user','admin') NOT NULL DEFAULT 'user',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `login`, `password`, `role`) VALUES
+(1, 'test', '$2y$10$sq18odxo8nTsheQttnuf3OS56B4j.SsnEB6bCA.Ow/fW.MYDhm5iy', 'user'),
+(2, 'jeffry', '$2y$10$bo7W9tpMz30j691NCqXMQuCjMWbaS2fEvdG.h4bJzT/TIiLEuLosi', 'admin');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
