@@ -1,17 +1,19 @@
-nav{
+nav {
   background-color: #010077;
   display: flex;
-  justify-content: center;
   padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
   align-items: center;
-}
+  }
 
-nav img{
+nav img {
   height: 45px;
   width: 45px;
 }
 
-nav a{
+nav a {
   color: white;
   text-decoration: none;
   padding: 12px 20px;
@@ -21,17 +23,16 @@ nav a{
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: background-color 0.3s ease;
-  font-family: "Atma", serif;
-}
+  }
 
-nav a.active{
+ nav a.active {
  background-color: #a0a2cdf5;
  color: white;
-}
+ }
 
-nav a:hover{
+ nav a:hover {
  background-color: #777;
-}
+ }
 
 .dropbtn{
   background-color: #010077;

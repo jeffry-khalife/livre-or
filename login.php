@@ -64,7 +64,7 @@
         
         <button type="submit">Se connecter</button>
     </form>
-            <p>Pas de compte ? <a class="inscription" href="signup.php">Inscription</a></p>
+            <p class="pasdecompte">Pas de compte ? <a class="inscription" href="signup.php">Inscription</a></p>
         </div>
     </div>
 

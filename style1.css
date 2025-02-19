@@ -1,5 +1,4 @@
 body {
-  font-family: "Atma", serif;
   background-color: #f4f4f9;
   margin: 0;
   padding: 0;
@@ -10,7 +9,7 @@ body {
     max-width: 600px;
     margin: 0 auto;
     background: #a0a2cdf5;
-    font-family: "Atma", serif;
+ 
     font-size: 30px;
     padding: 20px;
     border-radius: 20px;
@@ -19,7 +18,7 @@ body {
 
   .co{
     font-size: 45px;
-    font-weight: 600;
+    color: #010077;
   }
 
   h2 {
@@ -56,11 +55,17 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: "Atma", serif;
+ 
   }
 
   button:hover {
     background-color: #777;
+  }
+
+  .pasdecompte{
+    font-size: 20px;
+    padding-top: 4%;
+    color: #010077;
   }
 
   .message {
@@ -74,7 +79,7 @@ body {
   }
 
 /* Formulaire */
-body {font-family: "Atma", serif;}
+body
 * {box-sizing: border-box;}
 
 input[type=text], select, textarea {
@@ -107,9 +112,27 @@ form {
 
 .inscription{
   text-decoration: none;
-  color: black;
+  color: #010077;
 }
-   
+
+.n-u{
+  display: block;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.uncompte{
+  font-size: 20px;
+  padding-top: 4%;
+  color: #010077;
+  font-family: "Atma", serif;
+}
+
+.uncompteconnexion{
+  text-decoration: none;
+  color: #010077;
+}
+
  .content {
  /* display: flex; */
  justify-content: center;
@@ -138,6 +161,11 @@ form {
  background-clip: padding-box;
  text-align: center;
   }
+
+.inscrip{
+  font-size: 45px;
+  color: #010077;
+}
 
 @media (max-width: 600px) {
   .content {
