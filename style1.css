@@ -1,0 +1,273 @@
+body {
+  font-family: "Atma", serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #a0a2cdf5;
+    font-family: "Atma", serif;
+    font-size: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .co{
+    font-size: 45px;
+    font-weight: 600;
+  }
+
+  h2 {
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #010077;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Atma", serif;
+  }
+
+  button:hover {
+    background-color: #777;
+  }
+
+  .message {
+    text-align: center;
+    margin-top: 20px;
+    color: #28a745;
+  }
+
+  .error {
+    color: #e74c3c;
+  }
+
+/* Formulaire */
+body {font-family: "Atma", serif;}
+* {box-sizing: border-box;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=Valider] {
+  background-color: #010201;
+  color: black;
+  padding: 5px 2px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+input[type=Valider]:hover {
+  background-color: #000000;
+}
+
+form {
+  color: black;
+}
+
+.inscription{
+  text-decoration: none;
+  color: black;
+}
+   
+ .content {
+ /* display: flex; */
+ justify-content: center;
+ align-items: center;
+ min-height: 80vh;
+ text-align: center;
+ background-image: url("image/disco.png");
+ background-repeat: no-repeat;
+ background-size: 100% 100%;
+ padding: 50px;
+ }
+
+ .content h2 {
+ color: black;
+ font-size: 2.5rem;
+ margin: 0;
+ }
+
+   .box {
+ width: 40%;
+ margin: 0 auto;
+ background: rgba(255,255,255,0.2);
+ padding: 35px;
+ border: 2px solid #fff;
+ border-radius: 20px/50px;
+ background-clip: padding-box;
+ text-align: center;
+  }
+
+@media (max-width: 600px) {
+  .content {
+    background-size: cover;
+  }
+  
+  .box {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .box img {
+    width: 100%;
+    height: auto;
+  }
+
+  form input[type=text], form select, form textarea {
+    padding: 8px;
+  }
+
+  form input[type=Valider] {
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .content {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .content h2 {
+    font-size: 1.5rem;
+  }
+
+  .footer {
+    padding: 1% 0;
+  }
+
+  .box {
+    width: 80%;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  input[type="text"], input[type="email"], input[type="password"], button {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .box {
+    width: 80%;
+    padding: 20px;
+  }
+
+  .box img {
+    width: 100%;
+    height: auto;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+  }
+
+  .content {
+    padding: 30px;
+  }
+
+  .content h2 {
+    font-size: 2rem;
+  }
+
+  .box {
+    width: 60%;
+    padding: 25px;
+  }
+
+  .footer {
+    padding: 1.5% 0;
+  }
+}
+
+@media (min-width: 1025px) {
+  .box {
+    width: 600px;
+    padding: 20px;
+  }
+
+  .box img {
+    width: 500px;
+    height: 350px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .content h2 {
+    font-size: 3rem;
+  }
+
+  .footer {
+    padding: 2% 0;
+  }
+}

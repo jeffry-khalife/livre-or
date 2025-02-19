@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="style2.css">
     <title>Profil</title>
 </head>
-
 <body>
 
 <!--HAUT DE PAGE-->
