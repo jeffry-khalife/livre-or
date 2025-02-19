@@ -17,6 +17,16 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
+  .containers {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #a0a2cdf5;
+    font-family: caveat;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
   h2 {
     text-align: center;
     color: black;
@@ -115,7 +125,7 @@ form {
 
  .content h2 {
  color: black;
- font-size: 2.5rem;
+ font-size: 1.5rem;
  margin: 0;
  }
 
@@ -130,6 +140,42 @@ form {
  text-align: center;
    }
    
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    background-color: #010077;
+    color: white;
+}
+
+th {
+    background-color: #010077;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+a:hover {
+    background-color: #010077;
+}
 
 
 @media (max-width: 600px) {
@@ -160,6 +206,9 @@ form {
 
 @media (max-width: 768px) {
   .container {
+    padding: 15px;
+  }
+  .containers {
     padding: 15px;
   }
 
@@ -204,12 +253,60 @@ form {
     padding: 10px;
   }
 
+  .containers {
+    padding: 10px;
+  }
+
   h2 {
     font-size: 1.25rem;
   }
 
   input[type="text"], input[type="email"], input[type="password"], button {
     font-size: 0.9rem;
+  }
+  .containers {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.5rem; /* Plus petite taille d'en-tête */
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th, td {
+    font-size: 12px; /* Petite taille de texte pour une lisibilité facile */
+    padding: 8px;
+  }
+
+  a {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+  .containers {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th, td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  a {
+    font-size: 14px;
   }
 }
 
@@ -245,6 +342,29 @@ form {
   .footer {
     padding: 1.5% 0;
   }
+
+  @media (min-width: 481px) and (max-width: 600px) {
+    .containers {
+      padding: 15px;
+    }
+  
+    h2 {
+      font-size: 1.8rem;
+    }
+  
+    table {
+      width: 100%;
+    }
+  
+    th, td {
+      font-size: 14px;
+      padding: 10px;
+    }
+  
+    a {
+      font-size: 14px;
+    }
+  }
 }
 
 
@@ -259,15 +379,100 @@ form {
     width: 500px;
     height: 350px;
   }
+  .containers {
+    padding: 25px;
+  }
+
+  h2 {
+    font-size: 2.2rem;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th, td {
+    font-size: 18px;
+    padding: 14px;
+  }
+
+  a {
+    font-size: 18px;
+  }
 
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1999px) {
   .content h2 {
     font-size: 3rem;
   }
 
   .footer {
     padding: 2% 0;
+  }
+
+  .containers {
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th, td {
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  a {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 200px) and (max-width: 409px) {
+  .containers {
+    width: 100%;
+    padding: 5px; 
+    font-size: 12px; 
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  h2 {
+    font-size: 1.2rem; 
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px; 
+  }
+
+  th, td {
+    padding: 4px; 
+    text-align: left; 
+    border: 1px solid #ddd; 
+  }
+
+  th {
+    background-color: #010077;
+    font-weight: bold;
+  }
+
+  td {
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+
+  td:last-child {
+    text-align: center;
+    width: 80px;
   }
 }
