@@ -204,47 +204,72 @@ form {
   font-size: 12px;
   color: #666;
 }
+/* Media Queries pour la réactivité */
 
-@media (min-width: 200px) and (max-width: 409px) {
-  .containers {
+/* Pour les écrans moyens (tablettes et petits écrans d'ordinateurs) */
+@media (max-width: 1024px) {
+  .flip-container {
+    width: 80%;
+    height: auto;
+    margin: 30px auto;
+  }
+  .page {
+    height: auto;
+  }
+  .search-form input[type="text"] {
+    width: 75%;
+  }
+}
+
+/* Pour les tablettes et petits écrans */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+  }
+  .flip-container {
+    width: 90%;
+    margin: 20px auto;
+  }
+  .search-form input[type="text"] {
+    width: 80%;
+  }
+  .form-champ input[type="text"],
+  .form-champ textarea {
+    width: 90%;
+  }
+  .toggle-btn,
+  .envoyer-btn,
+  .dropbtn,
+  .dropbtn1,
+  .dropbtn2 {
+    padding: 8px 16px;
+  }
+}
+
+/* Pour les smartphones */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px;
+  }
+  .flip-container {
+    width: 95%;
+    margin: 10px auto;
+    height: auto;
+    padding: 0 10px;
+  }
+  .search-form input[type="text"] {
     width: 100%;
-    padding: 5px; 
-    font-size: 12px; 
-    margin: 0;
-    box-sizing: border-box;
+    font-size: 14px;
   }
-
-  h2 {
-    font-size: 1.2rem; 
-    text-align: center;
-    margin-bottom: 10px;
+  .form-champ input[type="text"],
+  .form-champ textarea {
+    width: 95%;
   }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 10px; 
-  }
-
-  th, td {
-    padding: 4px; 
-    text-align: left; 
-    border: 1px solid #ddd; 
-  }
-
-  th {
-    background-color: #010077;
-    font-weight: bold;
-  }
-
-  td {
-    word-wrap: break-word;
-    white-space: normal;
-  }
-
-
-  td:last-child {
-    text-align: center;
-    width: 80px;
+  .toggle-btn,
+  .envoyer-btn,
+  .dropbtn,
+  .dropbtn1,
+  .dropbtn2 {
+    padding: 8px 14px;
   }
 }
