@@ -46,7 +46,7 @@
                 </div>
                         
                 <div class="envoyermessage">
-                    <a class="envoyermessage2" href="">
+                    <a class="envoyermessage2" href="login.php">
                         Laissez un message pour Bernadette
                     </a>
                 </div>

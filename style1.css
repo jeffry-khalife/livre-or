@@ -8,7 +8,7 @@ body {
   .container {
     max-width: 600px;
     margin: 0 auto;
-    background: #a0a2cdf5;
+    background-color: #e7d24fd4;
  
     font-size: 30px;
     padding: 20px;
@@ -18,7 +18,7 @@ body {
 
   .co{
     font-size: 45px;
-    color: #010077;
+    color: #000000;
     font-family: 'Atma';
   }
 
@@ -52,7 +52,7 @@ body {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
-    background-color: #010077;
+    background-color: #000000;
     color: white;
     border: none;
     border-radius: 5px;
@@ -62,25 +62,25 @@ body {
   }
 
   button:hover {
-    background-color: #777;
+    background-color: #000000;
   }
 
   .pasdecompte{
     font-size: 20px;
     padding-top: 4%;
-    color: #010077;
+    color: #000000;
     font-family: 'Atma';
   }
 
   .message {
     text-align: center;
     margin-top: 20px;
-    color: #28a745;
+    color: #ff0000;
     font-family: 'Atma';
   }
 
   .error {
-    color: #e74c3c;
+    color: #ff0000;
     font-family: 'Atma';
   }
 
@@ -118,7 +118,7 @@ form {
 
 .inscription{
   text-decoration: none;
-  color: #010077;
+  color: #000000;
 }
 
 .n-u{
@@ -130,13 +130,13 @@ form {
 .uncompte{
   font-size: 20px;
   padding-top: 4%;
-  color: #010077;
+  color: #000000;
   font-family: "Atma", serif;
 }
 
 .uncompteconnexion{
   text-decoration: none;
-  color: #010077;
+  color: #000000;
 }
 
  .content {
@@ -145,7 +145,7 @@ form {
  align-items: center;
  min-height: 80vh;
  text-align: center;
- background-image: url("image/disco.png");
+ background-image: url("image/ballon.png");
  background-repeat: no-repeat;
  background-size: 100% 100%;
  padding: 50px;
@@ -170,7 +170,7 @@ form {
 
 .inscrip{
   font-size: 45px;
-  color: #010077;
+  color: #;
   font-family: 'Atma';
 }
 

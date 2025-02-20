@@ -12,7 +12,7 @@ body {
   
 /*PAGE*/
 .page{
-    background-color: #a0a2cdf5;
+    background-color: #e7d24fd4;
     width: 60%;
     margin: 70px auto 0;
     border-radius: 20px;
@@ -23,12 +23,12 @@ body {
 }
 .bienvenue{
     font-family: "Atma", serif;
-    color: #010077;
+    color: #000000;
     font-size: 27px;
 }
 .biographie{
     font-family: "Atma", serif;
-    color: white;
+    color: #000000;
     font-size: 18px;
     text-align: center;
     padding-top: 3%;
@@ -40,45 +40,45 @@ body {
     gap: 5%;
 }
 .premiercommentaire{
-    background-color: #2928ac;
+    background-color: #000000;
     border-radius: 10px;
     text-align: center;
     width: 25%;
-    color: white;
+    color: #fcdc12;
     padding: 2%;
     font-family: "Atma", serif;
 }
 .deuxièmecommentaire{
-    background-color: #2928ac;
+    background-color: #000000;
     border-radius: 10px;
     text-align: center;
     width: 24%;
-    color: white;
+    color: #fcdc12;
     padding: 2%;
     font-family: "Atma", serif;
 }
 .troisièmecommentaire{
-    background-color: #2928ac;
+    background-color: #000000;
     border-radius: 10px;
     text-align: center;
     font-family: "Sour Gummy", serif;
     width: 25%;
-    color: white;
+    color: #fcdc12;
     padding: 2%;
     font-family: "Atma", serif;
 }
 .envoyermessage{
     margin-top: 8%;
-    border: solid 5px #2928ac;
+    border: solid 5px #000000;
     border-radius: 10px;
     text-align: center;
     padding: 1%;
     font-family: "Atma", serif;
 }
 .envoyermessage2{
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 18px;
-    font-family: "Sour Gummy", serif;
+    font-family: "Atma", serif;
     text-decoration: none;
 }
 
@@ -88,7 +88,7 @@ body {
  align-items: center;
  min-height: 80vh;
  text-align: center;
- background-image: url("image/disco.png");
+ background-image: url("image/Livre.png");
  background-repeat: no-repeat;
  background-size: 100% 100%;
  padding: 50px;

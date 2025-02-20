@@ -71,14 +71,10 @@
     <footer>
         © Copyright
         <div class="Copyright">
-            <p>Magali Vacher
-            <br><a href="https://github.com/Vacher-Magali"><img src = "image/githublogo.png" alt="logo github"></a></p>
-            <p>Anna Marras
-            <br><a href="https://github.com/Anna-Marras"><img src = "image/githublogo.png" alt="logo github"></a></p>
-            <p>Emilie Ponce
-            <br><a href="https://github.com/emilie-ponce"><img src = "image/githublogo.png" alt="logo github"></a></p>
-            <p>Jeffry KHALIFE
-            <br><a href="https://github.com/jeffry-khalife"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Magali Vacher<br><a href="https://github.com/Vacher-Magali"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p >Anna Marras<br><a href="https://github.com/Anna-Marras"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Emilie Ponce<br><a href="https://github.com/emilie-ponce"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Jeffry KHALIFE<br><a href="https://github.com/jeffry-khalife"><img src = "image/githublogo.png" alt="logo github"></a></p>
         </div>
     </footer>
 </body>
