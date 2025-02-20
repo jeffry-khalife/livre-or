@@ -152,3 +152,4 @@ $totalPages = ceil($totalMessages / $limit);
 </footer>
 </body>
 </html>
+
