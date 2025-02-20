@@ -1,83 +1,8 @@
 <?php
-// Classe parent qui gère la connexion à la base de données
-class Connexion {
-    protected $pdo;
+// livre-or.php
+require_once 'Comments.php';
 
-    public function __construct($host, $dbname, $user, $pass) {
-        try {
-            $this->pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
-        catch (PDOException $e) {
-            die("Erreur de connexion : " . $e->getMessage());
-        }
-    }
-}
-
-// Classe enfant qui hérite de Connexion et gère les commentaires
-class Comment extends Connexion {
-
-    // Récupérer tous les commentaires
-    public function getAllMessages(){
-        $sql = "SELECT * FROM comment ORDER BY id DESC";
-        $stmt = $this->pdo->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Récupérer les commentaires avec pagination
-    public function getMessages($limit, $offset){
-        $sql = "SELECT * FROM comment ORDER BY id DESC LIMIT :limit OFFSET :offset";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Rechercher des commentaires par nom ou prénom, avec ou sans pagination
-    public function searchMessages($q, $limit = null, $offset = null){
-        if ($limit !== null && $offset !== null) {
-            $sql = "SELECT * FROM comment
-                    WHERE nom LIKE :q OR prenom LIKE :q
-                    ORDER BY id DESC LIMIT :limit OFFSET :offset";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
-            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-            $stmt->execute();
-        } else {
-            $sql = "SELECT * FROM comment
-                    WHERE nom LIKE :q OR prenom LIKE :q
-                    ORDER BY id DESC";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([':q' => '%'.$q.'%']);
-        }
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Ajouter un commentaire (nom, prénom, message)
-    public function addMessage($nom, $prenom, $comment){
-        $sql = "INSERT INTO comment (nom, prenom, comment, date)
-                VALUES (:nom, :prenom, :comment, CURRENT_TIMESTAMP())";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([
-            ':nom'     => $nom,
-            ':prenom'  => $prenom,
-            ':comment' => $comment
-        ]);
-    }
-
-    // Récupérer le nombre total de commentaires (pour la pagination)
-    public function getTotalMessages(){
-        $sql = "SELECT COUNT(*) FROM comment";
-        $stmt = $this->pdo->query($sql);
-        return $stmt->fetchColumn();
-    }
-}
-
-/* INSTANCIATION ET TRAITEMENT */
-
-// Adaptez ici vos identifiants MySQL
+// Instanciation de la classe Comment qui hérite de Connexion
 $guestBook = new Comment("localhost", "livreor", "root", "");
 
 // Message de feedback pour affichage
@@ -92,7 +17,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] :
 if ($page < 1) { $page = 1; }
 $offset = ($page - 1) * $limit;
 
-// Ajout d'un commentaire
+// Traitement de l'ajout d'un commentaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
     $nom     = strip_tags($_POST["nom"]);
     $prenom  = strip_tags($_POST["prenom"]);
