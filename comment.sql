@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 20 fév. 2025 à 16:12
+-- Généré le : jeu. 20 fév. 2025 à 10:01
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `id_user` int NOT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `comment`
@@ -62,32 +62,7 @@ INSERT INTO `comment` (`id`, `nom`, `prenom`, `comment`, `id_user`, `date`) VALU
 (27, 'Dassin', 'Joe', 'Et si tu n\'existais pas, dis-moi pourquoi j\'existerai ma Bernie ? Je plaisante, bon anniversaire à toi ma poule !', 0, '2025-02-20 10:34:15'),
 (28, 'Balavoine', 'Daniel', 'Et comment retrouver le goût de la vie sans toi Bernie ? Et qui pourra remplacer le besoin par l\'envie ? Joyeux anniversaire ! ', 0, '2025-02-20 10:36:45'),
 (29, 'Dada', 'Dalida', 'C\'est étrange, je ne sais pas ce qui m\'arrive ce soir mais je te regarde comme pour la première fois. Joyeux anniversaire ! ', 0, '2025-02-20 10:46:35'),
-(30, 'Sebastien', 'Patrick', 'Ce soir ce sont toujours les mêmes, des vieux habitués, un qui fait des poèmes, l’autre des mots croisés et c\'est comme ça qu\'on aime tes anniversaires !', 0, '2025-02-20 10:48:32'),
-(31, 'magali', 'Monique', 'bon anniversaire grand-mère !!', 0, '2025-02-20 15:31:44'),
-(32, 'jinx', 'Monique', 'w', 0, '2025-02-20 15:47:03');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `login` varchar(191) NOT NULL,
-  `password` varchar(191) NOT NULL,
-  `role` enum('user','admin') NOT NULL DEFAULT 'user',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `user`
---
-
-INSERT INTO `user` (`id`, `login`, `password`, `role`) VALUES
-(2, 'test', '$2y$10$sq18odxo8nTsheQttnuf3OS56B4j.SsnEB6bCA.Ow/fW.MYDhm5iy', 'user'),
-(1, 'jeffry', '$2y$10$bo7W9tpMz30j691NCqXMQuCjMWbaS2fEvdG.h4bJzT/TIiLEuLosi', 'admin');
+(30, 'Sebastien', 'Patrick', 'Ce soir ce sont toujours les mêmes, des vieux habitués, un qui fait des poèmes, l’autre des mots croisés et c\'est comme ça qu\'on aime tes anniversaires !', 0, '2025-02-20 10:48:32');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

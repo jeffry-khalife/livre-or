@@ -1,32 +1,30 @@
 <?php
-session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include('config.php');
-    include('user.php');
+include ('config.php');
+include ('User.php');
 
+$message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['login'];
     $password = $_POST['password'];
-
-    $user = new User($db);
-    $stmt = $db->prepare("SELECT * FROM user WHERE login = ?");
-    $stmt->execute([$login]);
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($data && password_verify($password, $data['password'])) {
-
-        $_SESSION['user_id'] = $data['id']; 
-        $_SESSION['role'] = $data['role'];  
-
-        if ($data['role'] == 'admin') {
-            header('Location: administrateur.php'); 
-        } else {
-            header('Location: livre-or.php');  
-        }
-        exit();
+    
+    if (empty($login) || empty($password)) {
+        $message = 'Tous les champs sont obligatoires';
     } else {
-        $error = 'Identifiants incorrects.';
+        try {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $user = new User($db);
+            $user->setLogin($login);
+            $user->setPassword($hashedPassword);
+            $user->save(); 
+
+            $message = 'Inscription réussie ! Vous pouvez maintenant vous connecter.';
+        } catch (Exception $e) {
+            $message = 'Erreur lors de l\'inscription : ' . $e->getMessage();
+        }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -49,17 +47,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="content">
         <div class="container">
-        <h1>Connexion</h1>
-    <form action="login.php" method="POST">
-        <label for="login">Nom d'utilisateur :</label>
-        <input type="text" id="login" name="login" required><br><br>
-        
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" required><br><br>
-        
-        <button type="submit">Se connecter</button>
-    </form>
-            <p>Pas de compte ? <a href="signup.php">Inscription</a></p>
+            <h1>Inscription</h1>
+            <form action="signup.php" method="POST">
+                <label for="login">Nom d'utilisateur :</label>
+                <input type="text" id="login" name="login" required><br><br>
+                
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" required><br><br>
+                
+                <button type="submit">S'inscrire</button> 
+            </form>
+            <p>Déja un compte ? <a href="login.php">Connexion</a></p>
         </div>
     </div>
 
@@ -72,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <br><a href="https://github.com/Anna-Marras"><img src = "image/githublogo.png" alt="logo github"></a></p>
             <p>Emilie Ponce
             <br><a href="https://github.com/emilie-ponce"><img src = "image/githublogo.png" alt="logo github"></a></p>
-            <p>Jeffry Kalife
+            <p>Jeffry Khalife
             <br><a href="https://github.com/jeffry-khalife"><img src = "image/githublogo.png" alt="logo github"></a></p>
         </div>
     </footer>
