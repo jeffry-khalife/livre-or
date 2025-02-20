@@ -1,14 +1,15 @@
 <?php
 
-class User {
+require_once ('connexion.php');
+
+class User extends Connexion { 
     private $id;
     private $login;
     private $password;
-    private $role; 
-    private $pdo;
+    private $role;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct($host, $livreor, $user, $pass) {
+        parent::__construct($host, $livreor, $user, $pass);
     }
 
     public function setId($id) {
@@ -44,7 +45,7 @@ class User {
     }
 
     public function verifyPassword($currentPassword) {
-        $stmt = $this->pdo->prepare("SELECT password FROM user WHERE id = ?");
+        $stmt = $this->getPdo()->prepare("SELECT password FROM user WHERE id = ?");
         $stmt->execute([$this->id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -56,24 +57,24 @@ class User {
 
     public function save() {
         if ($this->id) {
-            $stmt = $this->pdo->prepare("UPDATE user SET login = ?, password = ?, role = ? WHERE id = ?");
+            $stmt = $this->getPdo()->prepare("UPDATE user SET login = ?, password = ?, role = ? WHERE id = ?");
             $stmt->execute([$this->login, $this->password, $this->role, $this->id]);
         } else {
-            $stmt = $this->pdo->prepare("INSERT INTO user (login, password, role) VALUES (?, ?, ?)");
-            $stmt->execute([$this->login, $this->password, $this->role]);
-            $this->id = $this->pdo->lastInsertId();
+            $stmt = $this->getPdo()->prepare("INSERT INTO user (login, password) VALUES (?, ?)");
+            $stmt->execute([$this->login, $this->password]);
+            $this->id = $this->getPdo()->lastInsertId();
         }
     }
 
     public function getById($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM user WHERE id = ?");
+        $stmt = $this->getPdo()->prepare("SELECT * FROM user WHERE id = ?");
         $stmt->execute([$id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             $this->setId($data['id']);
             $this->setLogin($data['login']);
             $this->setPassword($data['password']);
-            $this->setRole($data['role']); 
+            $this->setRole($data['role']);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
-include ('config.php');
-include ('User.php');
+include ('connexion.php'); // Inclure la classe Connexion
+include ('user.php'); // Inclure la classe User
 
 $message = '';
 
@@ -12,8 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = 'Tous les champs sont obligatoires';
     } else {
         try {
+            // Créer une instance de Connexion pour obtenir l'objet PDO
+            $connexion = new Connexion('localhost', 'livreor', 'root', ''); // Paramètres de la base de données
+
+            // Créer une nouvelle instance de User en lui passant l'objet PDO
+            $user = new User('localhost', 'livreor', 'root', '');
+
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-            $user = new User($db);
             $user->setLogin($login);
             $user->setPassword($hashedPassword);
             $user->save(); 
@@ -24,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -35,15 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href='https://fonts.googleapis.com/css?family=Caveat' rel='stylesheet'>
     <link rel="stylesheet" href="style1.css">
     <link rel="stylesheet" href="style2.css">
-    <title>Profil</title>
+    <title>Inscription</title>
 </head>
 
 <body>
 <nav>
         <a href="index.php">Bernadette's Birthday</a>
         <a href="login.php"><img src="image/profil.png" alt="icone profil"></a>
-    </nav>
-
+</nav>
 
     <div class="content">
         <div class="container">
@@ -57,9 +60,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <button type="submit">S'inscrire</button> 
             </form>
-            <p>Déja un compte ? <a href="login.php">Connexion</a></p>
+            <?php if ($message): ?>
+                <p><?php echo $message; ?></p>
+            <?php endif; ?>
+            <p>Déjà un compte ? <a href="login.php">Connexion</a></p>
         </div>
     </div>
+</body>
+</html>
+
 
     <footer>
         © Copyright

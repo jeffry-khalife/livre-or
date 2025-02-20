@@ -1,31 +1,39 @@
-<?php
+<?php 
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include('config.php');
-    include('user.php');
+    require_once('connexion.php');
+    require_once('user.php');
 
     $login = $_POST['login'];
     $password = $_POST['password'];
 
-    $user = new User($db);
-    $stmt = $db->prepare("SELECT * FROM user WHERE login = ?");
-    $stmt->execute([$login]);
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $database = new connexion("localhost", "livreor", "root", "");
+        $db = $database->getPDO();
 
-    if ($data && password_verify($password, $data['password'])) {
+        $user = new User('localhost', 'livreor', 'root', '');
+        $stmt = $db->prepare("SELECT * FROM user WHERE login = ?");
+        $stmt->execute([$login]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $_SESSION['user_id'] = $data['id']; 
-        $_SESSION['role'] = $data['role'];  
+        if ($data && password_verify($password, $data['password'])) {
 
-        if ($data['role'] == 'admin') {
-            header('Location: administrateur.php'); 
+            $_SESSION['user_id'] = $data['id'];
+            $_SESSION['role'] = $data['role'];
+
+            if ($data['role'] == 'admin') {
+                header('Location: administrateur.php');
+            } else {
+                header('Location: livre-or.php');
+            }
+            exit();
         } else {
-            header('Location: livre-or.php');  
+            $error = 'Identifiants incorrects.';
         }
-        exit();
-    } else {
-        $error = 'Identifiants incorrects.';
+    } catch (PDOException $e) {
+        echo 'Erreur de connexion : ' . $e->getMessage();
     }
+
 }
 ?>
 

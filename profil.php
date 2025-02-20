@@ -1,19 +1,18 @@
 <?php
 session_start(); // début de la session
 
-// Verfier si l'utilisateur est connecté 
+// Vérifier si l'utilisateur est connecté 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
 
-include ('config.php'); // page de connexion à la base de donnée 
-include ('user.php'); // page de la classe user
+// inclure les fichiers nécessaires
+include ('connexion.php'); // inclusion de la classe Connexion pour la connexion à la base de données
+include ('user.php'); // inclusion de la classe User
 
 $message = ''; 
-$login = $_SESSION['login'];  
-
-// attribution des valeurs saisis dans le formulaire
+// Attribution des valeurs saisies dans le formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newLogin = $_POST['login'];
     $newPassword = $_POST['password'];
@@ -22,7 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = 'Tous les champs sont obligatoires.';
     } else {
         try {
-            $user = new User($db); // création d'une nouvelle instance de la classe User
+            // Créer une instance de la classe Connexion pour obtenir l'objet PDO
+            $connexion = new Connexion('localhost', 'livreor', 'root', ''); 
+
+            // Créer une nouvelle instance de la classe User en lui passant l'objet PDO
+            $user = new User('localhost', 'livreor', 'root', '');
             $user->setId($_SESSION['user_id']); 
 
             $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
@@ -36,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 <nav>
-        <a href="index.php">Bernadette's Birthday</a>
+        <a href="index2.php">Bernadette's Birthday</a>
         <div class="dropdown2">
             <button class="dropbtn2"><a href="#"><img src="image/profil.png" alt="icone profil"></a></button>
             <div class="dropdown-content2">
@@ -61,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </nav>
-
 
     <div class="content">
         <div class="container">
@@ -80,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
         </div>
     </div>
+</body>
+</html>
+
 
     <footer>
         © Copyright
