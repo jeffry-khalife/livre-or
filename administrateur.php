@@ -1,36 +1,43 @@
 <?php
 session_start();
 
-include ('config.php');
-include ('user.php');
-include ('comment.php');
+// Inclure les classes nécessaires
+include('connexion.php');
+include('user.php');
+include('comment.php');
 
+// Vérifier si l'utilisateur est connecté et s'il est admin
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); 
+    header('Location: login.php'); // Redirection vers la page de connexion si non connecté
     exit;
 }
 
-$user = new User($db);
+// Récupérer l'utilisateur connecté
+$user = new User('localhost', 'livreor', 'root', '');
 $user->getById($_SESSION['user_id']);
 
 if (!$user->isAdmin()) {
+    // Rediriger si l'utilisateur n'est pas un admin
     header('Location: index.php');
     exit;
 }
 
+// Gestion de la suppression d'un commentaire
 if (isset($_GET['delete'])) {
-    $comment = new Comment($db);
+    $comment = new Comment('localhost', 'livreor', 'root', '');
     $comment->getById($_GET['delete']);
     
+    // Supprimer le commentaire si l'id est valide
     if ($comment->getId()) {
-        $stmt = $db->prepare("DELETE FROM comment WHERE id = ?");
+        $stmt = $comment->getPdo()->prepare("DELETE FROM comment WHERE id = ?");
         $stmt->execute([$comment->getId()]);
         header('Location: administrateur.php');
         exit;
     }
 }
 
-$comments = $db->query("SELECT * FROM comment ORDER BY date DESC")->fetchAll(PDO::FETCH_ASSOC);
+// Récupérer tous les commentaires
+$comments = (new Comment('localhost', 'livreor', 'root', ''))->getPdo()->query("SELECT * FROM comment ORDER BY date DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +51,7 @@ $comments = $db->query("SELECT * FROM comment ORDER BY date DESC")->fetchAll(PDO
 </head>
 <body>
 <nav>
-        <a href="index.php">Bernadette's Birthday</a>
+        <a href="index2.php">Bernadette's Birthday</a>
         <div class="dropdown2">
             <button class="dropbtn2"><a href="#"><img src="image/profil.png" alt="icone profil"></a></button>
             <div class="dropdown-content2">
@@ -75,6 +82,7 @@ $comments = $db->query("SELECT * FROM comment ORDER BY date DESC")->fetchAll(PDO
                             <td><?= nl2br(htmlspecialchars($comment['comment'])) ?></td>
                             <td><?= date('d/m/Y H:i', strtotime($comment['date'])) ?></td>
                             <td>
+                                <!-- Bouton de suppression -->
                                 <a href="administrateur.php?delete=<?= $comment['id'] ?>" 
                                    onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire ?');">Supprimer</a>
                             </td>
@@ -85,6 +93,9 @@ $comments = $db->query("SELECT * FROM comment ORDER BY date DESC")->fetchAll(PDO
             
         </div>
     </div>
+</body>
+</html>
+
     <footer>
         © Copyright
         <div class="Copyright">
