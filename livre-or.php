@@ -1,5 +1,5 @@
 <?php
-class GuestDB {
+class connexion {
     private $pdo;
 
     public function __construct($host, $livreor, $user, $pass){
@@ -17,73 +17,77 @@ class GuestDB {
     }
 }
 
-/* Classe livre d'or */
-class GuestBook {
+/* Classecomment */
+class comment {
     private $pdo;
-    private $messagesPerPage = 10; // Nombre de messages par page
 
-    public function __construct(GuestDB $database){
+    public function __construct(connexion $database){
         $this->pdo = $database->getPdo();
     }
 
-    // Récupérer les messages paginés
-    public function getPagedMessages($page = 1){
-        $offset = ($page - 1) * $this->messagesPerPage;
-        $sql = "SELECT * FROM messages ORDER BY id DESC LIMIT :limit OFFSET :offset";
+    // Récupérer tous les commentaires 
+    public function getAllMessages(){
+        $sql = "SELECT * FROM comment ORDER BY id DESC";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Récupérer tous les commentaires (avec pagination)
+    public function getMessages($limit, $offset){
+        $sql = "SELECT * FROM comment ORDER BY id DESC LIMIT :limit OFFSET :offset";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':limit', $this->messagesPerPage, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Compter le nombre total de messages
-    public function getTotalMessages(){
-        $sql = "SELECT COUNT(*) FROM messages";
-        return $this->pdo->query($sql)->fetchColumn();
-    }
-
-    // Rechercher par nom ou prénom (avec pagination)
-    public function searchMessages($q, $page = 1){
-        $offset = ($page - 1) * $this->messagesPerPage;
-        $sql = "SELECT * FROM messages
-                WHERE nom LIKE :q OR prenom LIKE :q
-                ORDER BY id DESC LIMIT :limit OFFSET :offset";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
-        $stmt->bindValue(':limit', $this->messagesPerPage, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
+    // Rechercher par nom ou prénom
+    public function searchMessages($q, $limit = null, $offset = null){
+        if ($limit !== null && $offset !== null) {
+            $sql = "SELECT * FROM comment
+                    WHERE nom LIKE :q OR prenom LIKE :q
+                    ORDER BY id DESC LIMIT :limit OFFSET :offset";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+            $stmt->execute();
+        } else {
+            $sql = "SELECT * FROM comment
+                    WHERE nom LIKE :q OR prenom LIKE :q
+                    ORDER BY id DESC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':q' => '%'.$q.'%']);
+        }
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Compter le nombre total de messages pour une recherche
-    public function getTotalSearchMessages($q){
-        $sql = "SELECT COUNT(*) FROM messages WHERE nom LIKE :q OR prenom LIKE :q";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchColumn();
     }
 
     // Ajouter un commentaire (nom, prénom, message)
-    public function addMessage($nom, $prenom, $message){
-        $sql = "INSERT INTO messages (nom, prenom, message, date_post)
-                VALUES (:nom, :prenom, :message, NOW())";
+    public function addMessage($nom, $prenom, $comment){
+        $sql = "INSERT INTO comment (nom, prenom, comment, date)
+                VALUES (:nom, :prenom, :comment, CURRENT_TIMESTAMP())";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
             ':nom'     => $nom,
             ':prenom'  => $prenom,
-            ':message' => $message
+            ':comment' => $comment
         ]);
+    }
+
+    // Récupérer le nombre total de commentaires (pour la pagination)
+    public function getTotalMessages(){
+        $sql = "SELECT COUNT(*) FROM comment";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchColumn();
     }
 }
 
 /* INSTANCIATION + TRAITEMENT*/
 
 // Adaptez vos identifiants MySQL
-$database = new GuestDB("localhost", "livreor", "root", "");
-$guestBook = new GuestBook($database);
+$database = new connexion("localhost", "livreor", "root", "");
+$guestBook = new comment($database);
 
 // Pour afficher un message de succès ou d'erreur
 $feedback = "";
@@ -91,55 +95,62 @@ $feedback = "";
 // Récupération du paramètre de recherche
 $q = isset($_GET['q']) ? trim($_GET['q']) : "";
 
-// Récupération du numéro de page
-$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+// Définition de la pagination
+$limit = 5; // Nombre de messages par page
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) { $page = 1; }
+$offset = ($page - 1) * $limit;
 
-//  Ajout d'un commentaire
+// 3.1. Ajout d'un commentaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
     $nom    = strip_tags($_POST["nom"]);
     $prenom = strip_tags($_POST["prenom"]);
-    $msg    = strip_tags($_POST["message"]);
+    $comments    = strip_tags($_POST["comment"]);
 
-    if (!empty($nom) && !empty($prenom) && !empty($msg)) {
-        $guestBook->addMessage($nom, $prenom, $msg);
+    if (!empty($nom) && !empty($prenom) && !empty($comments)) {
+        $guestBook->addMessage($nom, $prenom, $comments);
         $feedback = "Commentaire ajouté avec succès !";
         // Redirection pour éviter la double soumission
-        header("Location: acceuil.php");
+        header("Location: livre-or.php");
         exit;
     } else {
-        $feedback = "Veuillez remplir tous les champs (nom, prénom, message).";
+        $feedback = "Veuillez remplir tous les champs (nom, prénom, commentaire).";
     }
 }
 
-//  Lecture des messages (filtrés ou non)
+// 3.2. Lecture des messages (filtrés ou non)
 if ($q === "") {
-    // Pas de recherche
-    $messages = $guestBook->getPagedMessages($page);
-    $totalMessages = $guestBook->getTotalMessages();
+    // Pas de recherche, avec pagination
+    $comment = $guestBook->getMessages($limit, $offset);
 } else {
-    // Recherche sur nom/prénom
-    $messages = $guestBook->searchMessages($q, $page);
-    $totalMessages = $guestBook->getTotalSearchMessages($q);
+    // Recherche sur nom/prénom, avec pagination
+    $comment = $guestBook->searchMessages($q, $limit, $offset);
 }
 
-// Calcul du nombre total de pages
-$totalPages = ceil($totalMessages / 5); // 10 est le nombre de messages par page
+// Récupération du nombre total de messages pour la pagination
+$totalMessages = $guestBook->getTotalMessages();
+$totalPages = ceil($totalMessages / $limit);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style2.css">
   <link rel="stylesheet" href="livre-or.css">
   <title>Livre d'Or</title>
 </head>
 <body>
-  <nav>
-    <a href="index.php">Bernadette's Birthday</a>
-    <a href="login.php">
-      <img src="image/profile.png" alt="icone profil">
-    </a>
-  </nav>
+<nav>
+        <a href="index2.php">Bernadette's Birthday</a>
+        <div class="dropdown2">
+            <button class="dropbtn2"><a href="#"><img src="image/profil.png" alt="icone profil"></a></button>
+            <div class="dropdown-content2">
+              <a href="profil.php">Parametres</a>
+              <a href="logout.php">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
   
   <main>
     <h1>Livre d'Or</h1>
@@ -164,17 +175,17 @@ $totalPages = ceil($totalMessages / 5); // 10 est le nombre de messages par page
           </form>
 
           <!-- Liste des messages -->
-          <?php if (empty($messages)): ?>
+          <?php if (empty($comment)): ?>
             <p>Aucun commentaire trouvé.</p>
           <?php else: ?>
-            <?php foreach ($messages as $msg): ?>
+            <?php foreach ($comment as $comments): ?>
               <div class="message-item">
                 <h3>
-                  <?php echo htmlspecialchars($msg['nom']); ?>
-                  <?php echo htmlspecialchars($msg['prenom']); ?>
+                  <?php echo htmlspecialchars($comments['nom']); ?>
+                  <?php echo htmlspecialchars($comments['prenom']); ?>
                 </h3>
-                <p><?php echo nl2br(htmlspecialchars($msg['message'])); ?></p>
-                <em>Posté le <?php echo date('d/m/Y H:i', strtotime($msg['date_post'])); ?></em>
+                <p><?php echo nl2br(htmlspecialchars($comments['comment'])); ?></p>
+                <em>Posté le <?php echo date('d/m/Y H:i', strtotime($comments['date'])); ?></em>
               </div>
             <?php endforeach; ?>
           <?php endif; ?>
@@ -207,7 +218,7 @@ $totalPages = ceil($totalMessages / 5); // 10 est le nombre de messages par page
               <input type="text" name="prenom" placeholder="Votre prénom..." required>
             </div>
             <div class="form-champ">
-              <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
+              <textarea name="comment" rows="5" placeholder="Votre commentaire..." required></textarea>
             </div>
             <button type="submit" name="ajouter" class="envoyer-btn">Envoyer</button>
           </form>
@@ -218,35 +229,18 @@ $totalPages = ceil($totalMessages / 5); // 10 est le nombre de messages par page
       </div>
     </div>
   </main>
-
   <footer>
-    <p></p>
-    <div class="Copyright">
-      <p>
-        Magali Vacher<br>
-        <a href="https://github.com/Vacher-Magali">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-      <p>
-        Anna Marras<br>
-        <a href="https://github.com/anna-marras">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-      <p>
-        Emilie Ponce<br>
-        <a href="https://github.com/emilie-ponce">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-      <p>
-        Jeffry KHALIFE<br>
-        <a href="https://github.com/jeffry-khalife">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-    </div>
-  </footer>
+        © Copyright
+        <div class="Copyright">
+            <p>Magali Vacher
+            <br><a href="https://github.com/Vacher-Magali"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Anna Marras
+            <br><a href="https://github.com/Anna-Marras"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Emilie Ponce
+            <br><a href="https://github.com/emilie-ponce"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Jeffry Khalife
+            <br><a href="https://github.com/jeffry-khalife"><img src = "image/githublogo.png" alt="logo github"></a></p>
+        </div>
+    </footer>
 </body>
 </html>
