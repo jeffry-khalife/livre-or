@@ -1,5 +1,5 @@
 <?php
-class GuestDB {
+class connexion {
     private $pdo;
 
     public function __construct($host, $livreor, $user, $pass){
@@ -17,11 +17,11 @@ class GuestDB {
     }
 }
 
-/* Classe livre d'or */
-class GuestBook {
+/* Classecomment */
+class comment {
     private $pdo;
 
-    public function __construct(GuestDB $database){
+    public function __construct(connexion $database){
         $this->pdo = $database->getPdo();
     }
 
@@ -32,13 +32,34 @@ class GuestBook {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Rechercher par nom ou prénom
-    public function searchMessages($q){
-        $sql = "SELECT * FROM comment
-                WHERE nom LIKE :q OR prenom LIKE :q
-                ORDER BY id DESC";
+    // Récupérer tous les commentaires (avec pagination)
+    public function getMessages($limit, $offset){
+        $sql = "SELECT * FROM comment ORDER BY id DESC LIMIT :limit OFFSET :offset";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':q' => '%'.$q.'%']);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Rechercher par nom ou prénom
+    public function searchMessages($q, $limit = null, $offset = null){
+        if ($limit !== null && $offset !== null) {
+            $sql = "SELECT * FROM comment
+                    WHERE nom LIKE :q OR prenom LIKE :q
+                    ORDER BY id DESC LIMIT :limit OFFSET :offset";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':q', '%'.$q.'%', PDO::PARAM_STR);
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+            $stmt->execute();
+        } else {
+            $sql = "SELECT * FROM comment
+                    WHERE nom LIKE :q OR prenom LIKE :q
+                    ORDER BY id DESC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':q' => '%'.$q.'%']);
+        }
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -53,19 +74,32 @@ class GuestBook {
             ':comment' => $comment
         ]);
     }
+
+    // Récupérer le nombre total de commentaires (pour la pagination)
+    public function getTotalMessages(){
+        $sql = "SELECT COUNT(*) FROM comment";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchColumn();
+    }
 }
 
 /* INSTANCIATION + TRAITEMENT*/
 
 // Adaptez vos identifiants MySQL
-$database = new GuestDB("localhost", "livreor", "root", "");
-$guestBook = new GuestBook($database);
+$database = new connexion("localhost", "livreor", "root", "");
+$guestBook = new comment($database);
 
 // Pour afficher un message de succès ou d'erreur
 $feedback = "";
 
 // Récupération du paramètre de recherche
 $q = isset($_GET['q']) ? trim($_GET['q']) : "";
+
+// Définition de la pagination
+$limit = 5; // Nombre de messages par page
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) { $page = 1; }
+$offset = ($page - 1) * $limit;
 
 // 3.1. Ajout d'un commentaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
@@ -77,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
         $guestBook->addMessage($nom, $prenom, $comments);
         $feedback = "Commentaire ajouté avec succès !";
         // Redirection pour éviter la double soumission
-        header("Location: index.php");
+        header("Location: livre-or.php");
         exit;
     } else {
         $feedback = "Veuillez remplir tous les champs (nom, prénom, commentaire).";
@@ -86,30 +120,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ajouter"])) {
 
 // 3.2. Lecture des messages (filtrés ou non)
 if ($q === "") {
-    // Pas de recherche
-    $comment = $guestBook->getAllMessages();
+    // Pas de recherche, avec pagination
+    $comment = $guestBook->getMessages($limit, $offset);
 } else {
-    // Recherche sur nom/prénom
-    $comment = $guestBook->searchMessages($q);
+    // Recherche sur nom/prénom, avec pagination
+    $comment = $guestBook->searchMessages($q, $limit, $offset);
 }
+
+// Récupération du nombre total de messages pour la pagination
+$totalMessages = $guestBook->getTotalMessages();
+$totalPages = ceil($totalMessages / $limit);
 ?>
-<!DOCTYPE html>
-<html lang="fr">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style2.css">
   <link rel="stylesheet" href="livre-or.css">
   <title>Livre d'Or</title>
 </head>
 <body>
-  <nav>
-    <a href="index.php">Bernadette's Birthday</a>
-    <a href="login.php">
-      <img src="image/profile.png" alt="icone profil">
-    </a>
-  </nav>
+<nav>
+        <a href="index2.php">Bernadette's Birthday</a>
+        <div class="dropdown2">
+            <button class="dropbtn2"><a href="#"><img src="image/profil.png" alt="icone profil"></a></button>
+            <div class="dropdown-content2">
+              <a href="profil.php">Parametres</a>
+              <a href="logout.php">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
   
   <main>
     <h1>Livre d'Or</h1>
@@ -149,6 +190,19 @@ if ($q === "") {
             <?php endforeach; ?>
           <?php endif; ?>
 
+          <!-- Liens de pagination -->
+          <?php if ($totalPages > 1): ?>
+            <div class="pagination">
+              <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <?php if ($i == $page): ?>
+                  <span class="current-page"><?= $i ?></span>
+                <?php else: ?>
+                  <a href="?page=<?= $i ?><?php if (!empty($q)) echo '&q=' . urlencode($q); ?>"><?= $i ?></a>
+                <?php endif; ?>
+              <?php endfor; ?>
+            </div>
+          <?php endif; ?>
+
           <!-- Bouton pour passer à l'ajout -->
           <label for="flip-toggle" class="toggle-btn">Ajouter un commentaire</label>
         </div>
@@ -175,35 +229,18 @@ if ($q === "") {
       </div>
     </div>
   </main>
-
   <footer>
-    <p></p>
-    <div class="Copyright">
-      <p>
-        Magali Vacher<br>
-        <a href="https://github.com/Vacher-Magali">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-      <p>
-        Anna Marras<br>
-        <a href="https://github.com/anna-marras">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-      <p>
-        Emilie Ponce<br>
-        <a href="https://github.com/emilie-ponce">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-      <p>
-        Jeffry KHALIFE<br>
-        <a href="https://github.com/jeffry-khalife">
-          <img src="image/githublogo.png" alt="logo github">
-        </a>
-      </p>
-    </div>
-  </footer>
+        © Copyright
+        <div class="Copyright">
+            <p>Magali Vacher
+            <br><a href="https://github.com/Vacher-Magali"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Anna Marras
+            <br><a href="https://github.com/Anna-Marras"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Emilie Ponce
+            <br><a href="https://github.com/emilie-ponce"><img src = "image/githublogo.png" alt="logo github"></a></p>
+            <p>Jeffry Khalife
+            <br><a href="https://github.com/jeffry-khalife"><img src = "image/githublogo.png" alt="logo github"></a></p>
+        </div>
+    </footer>
 </body>
 </html>
